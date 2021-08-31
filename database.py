@@ -5,9 +5,9 @@ import os.path as path
 def readData(fileName: str):
     """ Read file data and return tuple if file is valid
 
-        Args
-        ----
-        fileName (str): Name of the file where the data is stored
+            Args
+            ----
+            fileName (str): Name of the file where the data is stored
     """
     if path.isfile(fileName) and path.splitext(fileName) == "csv":
         with open("produits.csv") as file:
