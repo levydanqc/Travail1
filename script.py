@@ -13,7 +13,28 @@ def obtenir_connexion():
     return conn
 
 
-def ajouter_produit(pharmacieIdBJC, upc, sap, idItem, description, fournisseur, coutant, prix, categorie, sousDepartement, departement, marque, din, crx, estTaxableFed, estTaxableProv):
+def ajouter_produit(pharmacieIdBJC: str, upc: str, sap: str, idItem: str, description: str, fournisseur: str, coutant: str, prix: str, categorie: str, sousDepartement: str, departement: str, marque: str, din: str, crx: str, estTaxableFed: str, estTaxableProv: str):
+    """ Ajout de données à la BD
+
+        Args
+        ----
+        pharmacieIdBJC (str): # de succursale
+        upc (str): Code barre
+        sap (str): Numéro du produit
+        idItem (str): Code unique pour le produit
+        description (str): Description du produit
+        fournisseur (str): Numéro du fournisseur
+        coutant (str): Coûtant
+        prix (str): Prix de vente
+        categorie (str): Catégorie du produit
+        sousDepartement (str): Sous-département
+        departement (str): Département
+        marque (str): Marque
+        din (str): Drug identification number
+        crx (str): Code de prescription
+        estTaxableFed (str): Taxe fédérale
+        estTaxableProv (str): Taxe provinciale
+    """
     connexion = obtenir_connexion()
     curseur = connexion.cursor()
     params = "(pharmacieIdBJC, upc, sap, idItem, description, fournisseur, coutant, prix, categorie, sousDepartement, departement, marque, din, crx, estTaxableFed, estTaxableProv)"
@@ -28,14 +49,11 @@ def ajouter_produit(pharmacieIdBJC, upc, sap, idItem, description, fournisseur, 
     curseur.close()
     connexion.close()
 
-def validate(produit):
-    pass
 
 
 def main():
     for produit in database.readData("produits.csv"):
-        if validate(produit):
-            ajouter_produit(produit)
+        ajouter_produit(*produit)
 
 
 if __name__ == "__main__":
