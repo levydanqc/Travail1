@@ -1,6 +1,6 @@
 """ Script d'ajout de données depuis un fichier .csv à une base de données MySQL. """
 import mysql.connector
-import database
+from database import read_data
 
 
 def obtenir_connexion():
@@ -39,7 +39,7 @@ def ajouter_produit(produit: tuple):
 
 def main():
     """ Fonction principale d'ajout de données dans la bd. """
-    for produit in database.read_data("produits.csv"):
+    for produit in read_data("produits.csv"):
         ajouter_produit(produit)
 
 
