@@ -14,23 +14,24 @@ def validate(data: tuple):
         ----
         data (tuple): Données d'un produit
     """
-    test = (int(data[-4]) < 3) or (int(data[-1]) == int(data[-2]) == 0) \
+    return (int(data[-4]) < 3) or (int(data[-1]) == int(data[-2]) == 0) \
         or (len(str(float(data[1]))) < 14) or (float(data[7]) < float(data[6]))
-    return test
 
 
 def read_data(file_name: str):
-    """ Lis le fichier de données.
-        Retourne une liste de tuple si le fichier est valide.
+    """ Vérifie la validité du fichier et retourne une liste de tuple des données
+        sur les produits après vérification de leur validité.
 
-            Args
-            ----
-            file_name (str): Nom du fichier contenant les données
+        Args
+        ----
+        file_name (str): Nom du fichier contenant les données
     """
     if path.isfile(file_name) and path.splitext(file_name)[1] == '.csv':
         with open("produits.csv") as file:
             return [x for i in file if not
                     validate(x := tuple(i.replace(',', '.').replace('\n', '').split(';')))]
+    else:
+        raise ValueError("Le nom du fichier n'est pas valide.")
 
 
 def print_data():
