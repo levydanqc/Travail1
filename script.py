@@ -1,8 +1,12 @@
-import database
+""" Script d'ajout de données depuis un fichier .csv à une base de données MySQL. """
 import mysql.connector
+import database
 
 
 def obtenir_connexion():
+    """ Connexion à la base de données MySQL.
+        Retourne la connexion active.
+    """
     conn = mysql.connector.connect(
         user="root",
         password="mysqlRoot",
@@ -13,36 +17,19 @@ def obtenir_connexion():
     return conn
 
 
-def ajouter_produit(pharmacieIdBJC: str, upc: str, sap: str, idItem: str, description: str, fournisseur: str, coutant: str, prix: str, categorie: str, sousDepartement: str, departement: str, marque: str, din: str, crx: str, estTaxableFed: str, estTaxableProv: str):
+def ajouter_produit(produit: tuple):
     """ Ajout de données à la BD
 
         Args
         ----
-        pharmacieIdBJC (str): # de succursale
-        upc (str): Code barre
-        sap (str): Numéro du produit
-        idItem (str): Code unique pour le produit
-        description (str): Description du produit
-        fournisseur (str): Numéro du fournisseur
-        coutant (str): Coûtant
-        prix (str): Prix de vente
-        categorie (str): Catégorie du produit
-        sousDepartement (str): Sous-département
-        departement (str): Département
-        marque (str): Marque
-        din (str): Drug identification number
-        crx (str): Code de prescription
-        estTaxableFed (str): Taxe fédérale
-        estTaxableProv (str): Taxe provinciale
+        produit (tuple): Données d'un produit
     """
     connexion = obtenir_connexion()
     curseur = connexion.cursor()
-    params = "(pharmacieIdBJC, upc, sap, idItem, description, fournisseur, coutant, prix, categorie, sousDepartement, departement, marque, din, crx, estTaxableFed, estTaxableProv)"
-    values = (int(pharmacieIdBJC), upc, sap, idItem, description, fournisseur, float(coutant.replace(',', '.')), float(prix.replace(',', '.')),
-              categorie, sousDepartement, departement, marque, din, crx, int(estTaxableFed), int(estTaxableProv))
-    query = 'insert into produits %s values (%s, "%s", "%s", "%s", "%s", "%s", %s, %s, "%s", "%s", "%s", "%s", "%s", "%s", %s, %s);'
-    cmd = query % (params, *values)
-    curseur.execute(query)
+    query = 'insert into produits values' + \
+        '(%s, "%s", "%s", "%s", "%s", "%s", %s, %s, "%s", "%s", "%s", "%s", "%s", "%s", %s, %s);'
+    cmd = query % produit
+    curseur.execute(cmd)
 
     connexion.commit()
 
@@ -50,10 +37,10 @@ def ajouter_produit(pharmacieIdBJC: str, upc: str, sap: str, idItem: str, descri
     connexion.close()
 
 
-
 def main():
-    for produit in database.readData("produits.csv"):
-        ajouter_produit(*produit)
+    """ Fonction principale d'ajout de données dans la bd. """
+    for produit in database.read_data("produits.csv"):
+        ajouter_produit(produit)
 
 
 if __name__ == "__main__":
