@@ -5,7 +5,8 @@ import os.path as path
 def validate(data: tuple):
     """ Validation des données à l'aide de règles prédéfinies.
         Retourne Vrai si les données sont valide en fonction de:
-        - DIN est plus grand que 3$
+        - DIN est inexistant
+        - Le prix du produit et d'au moins 3$
         - Il y a une taxe fédérale et provinciale
         - UPC contient moins de 12 caratères (14 en comptant le ".0" du float)
         - Prix de vente est plus grand que le prix coûtant
