@@ -26,8 +26,8 @@ def ajouter_produit(produit: tuple):
     """
     connexion = obtenir_connexion()
     curseur = connexion.cursor()
-    query = 'insert into produits values' + \
-        '(%s, "%s", "%s", "%s", "%s", "%s", %s, %s, "%s", "%s", "%s", "%s", "%s", "%s", %s, %s);'
+    query = """insert into produits values
+        (%s, "%s", "%s", "%s", "%s", "%s", %s, %s, "%s", "%s", "%s", "%s", "%s", "%s", %s, %s);"""
     cmd = query % produit
     curseur.execute(cmd)
 
