@@ -15,8 +15,8 @@ def validate(data: tuple):
         ----
         data (tuple): Données d'un produit
     """
-    return (int(data[-1]) == int(data[-2]) == 1) and (float(data[7]) >= 3.0) and (data[-4] == 0) \
-        and (len(str(float(data[1]))) <= 14) and (float(data[7]) > float(data[6]))
+    return (int(data[-1]) == int(data[-2]) == 1) and (float(data[7]) >= 3.0) and (int(data[-4]) == 0) \
+        and (False if not data[1] else len(str(float(data[1]))) <= 14) and (float(data[7]) > float(data[6]))
 
 
 def read_data(file_name: str):
@@ -30,7 +30,8 @@ def read_data(file_name: str):
     if path.isfile(file_name) and path.splitext(file_name)[1] == '.csv':
         with open("produits.csv") as file:
             return [x for i in file if
-                    validate(x := tuple(i.replace(',', '.').replace('\n', '').split(';')))]
+                    validate(x := tuple(i.replace('"', r'\"')
+                                        .replace(',', '.').replace('\n', '').split(';')))]
     else:
         raise ValueError("Le nom du fichier n'est pas valide.")
 

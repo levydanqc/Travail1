@@ -17,30 +17,31 @@ def obtenir_connexion():
     return conn
 
 
-def ajouter_produit(produit: tuple):
+def ajouter_produit(produit: tuple, curseur):
     """ Ajout de données à la BD
 
         Args
         ----
         produit (tuple): Données d'un produit
     """
-    connexion = obtenir_connexion()
-    curseur = connexion.cursor()
-    query = """insert into produits values
-        (%s, "%s", "%s", "%s", "%s", "%s", %s, %s, "%s", "%s", "%s", "%s", "%s", "%s", %s, %s);"""
+    query = '''insert into produits values
+        (%s, "%s", "%s", "%s", "%s", "%s", %s, %s, "%s", "%s", "%s", "%s", "%s", "%s", %s, %s);'''
     cmd = query % produit
     curseur.execute(cmd)
+
+
+def main():
+    """ Fonction principale d'ajout de données dans la bd. """
+    connexion = obtenir_connexion()
+    curseur = connexion.cursor()
+
+    for produit in read_data("produits.csv"):
+        ajouter_produit(produit, curseur)
 
     connexion.commit()
 
     curseur.close()
     connexion.close()
-
-
-def main():
-    """ Fonction principale d'ajout de données dans la bd. """
-    for produit in read_data("produits.csv"):
-        ajouter_produit(produit)
 
 
 if __name__ == "__main__":
