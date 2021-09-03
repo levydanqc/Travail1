@@ -15,8 +15,9 @@ def validate(data: tuple):
         ----
         data (tuple): Données d'un produit
     """
-    return (int(data[-1]) == int(data[-2]) == 1) and (float(data[7]) >= 3.0) and (int(data[-4]) == 0) \
-        and (False if not data[1] else len(str(float(data[1]))) <= 14) and (float(data[7]) > float(data[6]))
+    return (int(data[-1]) == int(data[-2]) == 1) and (float(data[7]) >= 3.0)\
+        and (int(data[-4]) == 0) and (False if not data[1] else len(str(float(data[1]))) <= 14) \
+        and (float(data[7]) > float(data[6]))
 
 
 def read_data(file_name: str):
